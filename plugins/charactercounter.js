@@ -14,14 +14,32 @@ const charactercounter = {
   makeel() {
     const el = document.createElement('div');
     el.id = 'yapplus-charcounter';
-    el.style.cssText = 'position:fixed;z-index:2147483000;pointer-events:none;font-size:12px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:#23a55a;text-shadow:0 1px 2px rgba(0,0,0,.6);display:none;';
+    el.style.cssText = [
+      'position:fixed',
+      'z-index:2147483000',
+      'pointer-events:none',
+      'display:none',
+      'padding:4px 10px',
+      'border-radius:999px',
+      'border:1.5px solid #7c8cff',
+      'background:rgba(18,18,24,.92)',
+      'backdrop-filter:blur(6px)',
+      'box-shadow:0 2px 10px rgba(0,0,0,.45)',
+      'font-size:14px',
+      'font-weight:700',
+      'line-height:1',
+      'letter-spacing:.3px',
+      'font-variant-numeric:tabular-nums',
+      'color:#e8ebff',
+      'transition:color .15s, border-color .15s, transform .1s'
+    ].join(';');
     document.body.appendChild(el);
     return el;
   },
   colorfor(n) {
-    if (n >= 1000) return '#ff4b4b';
-    if (n >= 500) return '#f0b232';
-    return '#23a55a';
+    if (n >= 1000) return '#ff5c5c'; // red
+    if (n >= 500) return '#ffb020';  // amber
+    return '#9fb0ff';                // soft blue
   },
   tick() { // 10fps basically what i get when i try to run minecraft
     if (!this.el || !this.el.isConnected) this.el = this.makeel();
@@ -38,8 +56,10 @@ const charactercounter = {
     }
     const n = input.value.length;
     if (n !== this.last) {
-      this.el.textContent = String(n);
-      this.el.style.color = this.colorfor(n);
+      const c = this.colorfor(n);
+      this.el.textContent = n.toLocaleString();
+      this.el.style.color = c;
+      this.el.style.borderColor = c;
       this.last = n;
     }
     this.el.style.display = 'block';
